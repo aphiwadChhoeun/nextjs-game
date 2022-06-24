@@ -15,17 +15,12 @@ const Game: NextPage = ({ number }: any) => {
         setSecret(randomNumber(0, 100))
     }
 
-    const log = () => {
-        console.log(oldSecret, '->', secret)
-    }
-
     const handleGuessClick = (guess: string) => {
         setGuess(guess)
         generateNextNumber()
     }
 
     useEffect(() => {
-        log()
         if (guess === 'high' && oldSecret < secret
             || guess === 'low' && oldSecret > secret) {
             setScore(score + 1)
