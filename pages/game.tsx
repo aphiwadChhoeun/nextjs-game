@@ -7,7 +7,7 @@ const Game: NextPage = ({ number }: any) => {
     const [secret, setSecret] = useState(number)
     const [oldSecret2, setOldSecret2] = useState(number)
     const [oldSecret, setOldSecret] = useState(number)
-    const [guess, setGuess] = useState(null)
+    const [guess, setGuess] = useState<null | string>(null)
 
     const generateNextNumber = () => {
         setOldSecret2(oldSecret)
