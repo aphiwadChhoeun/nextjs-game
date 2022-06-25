@@ -23,6 +23,7 @@
 .score {
     display: flex;
     justify-content: center;
+    text-transform: uppercase;
 }
 
 .oldSecret {
@@ -46,4 +47,5 @@
 
 .button {
     padding: .5em;
+    text-transform: uppercase;
 }
