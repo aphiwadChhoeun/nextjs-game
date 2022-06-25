@@ -1,31 +1,53 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import styles from '../styles/Game.module.css';
 
 const Game: NextPage = ({ number }: any) => {
     const [score, setScore] = useState(0)
     const [secret, setSecret] = useState(number)
-    const [oldSecret2, setOldSecret2] = useState(number)
-    const [oldSecret, setOldSecret] = useState(number)
-    const [guess, setGuess] = useState<null | string>(null)
+    const [oldSecret, setOldSecret] = useState<number>(secret)
+    const [oldOldSecret, setOldOldSecret] = useState<number>(secret)
+    const [streak, setStreak] = useState<number>(0)
 
-    const generateNextNumber = () => {
-        setOldSecret2(oldSecret)
-        setOldSecret(secret)
-        setSecret(randomNumber(0, 100))
+    function generateNextNumber(): number {
+        return randomNumber(0, 100)
     }
 
-    const handleGuessClick = (guess: string) => {
-        setGuess(guess)
-        generateNextNumber()
+    function populateSecret(rnd: number) {
+        const tempSecret = secret
+        const tempOldSecret = oldSecret
+        setOldOldSecret(tempOldSecret)
+        setOldSecret(tempSecret)
+        setSecret(rnd)
     }
 
-    useEffect(() => {
-        if (guess === 'high' && oldSecret < secret
-            || guess === 'low' && oldSecret > secret) {
+    function handleResult(test: Function) {
+        if (test()) {
             setScore(score + 1)
+            setStreak(streak + 1)
+        } else {
+            setStreak(0)
         }
-    }, [secret])
+    }
+
+    function handleHighClick() {
+        const newSecret = generateNextNumber()
+        populateSecret(newSecret)
+
+        handleResult(() => secret < newSecret)
+    }
+
+    function handleLowClick() {
+        const newSecret = generateNextNumber()
+        populateSecret(newSecret)
+
+        handleResult(() => secret > newSecret)
+    }
+
+    function handleSkipClick() {
+        const newSecret = generateNextNumber()
+        populateSecret(newSecret)
+    }
 
     return (
         <div className={styles.container}>
@@ -33,12 +55,13 @@ const Game: NextPage = ({ number }: any) => {
                 <div className={styles.title}>Hi-low Game</div>
                 <div className={styles.gameWrapper}>
                     <div className={styles.score}>Score: {score}</div>
-                    <div><span className={styles.oldSecret}>{oldSecret2} -&gt; {oldSecret} -&gt;</span> <span className={styles.newSecret}>{secret}</span></div>
+                    <div><span className={styles.oldSecret}>{oldOldSecret} -&gt; {oldSecret} -&gt;</span> <span className={styles.newSecret}>{secret}</span></div>
                     <div className={styles.gameControls}>
-                        <button className={styles.button} onClick={() => handleGuessClick('skip')}>Skip</button>
-                        <button className={styles.button} onClick={() => handleGuessClick('high')}>High</button>
-                        <button className={styles.button} onClick={() => handleGuessClick('low')}>Low</button>
+                        <button className={styles.button} onClick={() => handleSkipClick()}>Skip</button>
+                        <button className={styles.button} onClick={() => handleHighClick()}>High</button>
+                        <button className={styles.button} onClick={() => handleLowClick()}>Low</button>
                     </div>
+                    {streak > 0 && <div>Winning Streak x{streak}</div>}
                 </div>
             </main>
         </div>
