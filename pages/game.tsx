@@ -9,6 +9,9 @@ const Game: NextPage = ({ number }: any) => {
     const [oldOldSecret, setOldOldSecret] = useState<number>(secret)
     const [streak, setStreak] = useState<number>(0)
     const [scoreBuffer, setScoreBuffer] = useState<number>(0)
+    const formattedScore = useMemo(() => {
+        return new Intl.NumberFormat('en-US', { notation: "compact" }).format(score)
+    }, [score])
 
     function generateNextNumber(): number {
         return randomNumber(0, 100)
@@ -65,9 +68,10 @@ const Game: NextPage = ({ number }: any) => {
             <main className={styles.main}>
                 <div className={styles.title}>Hi-low Game</div>
                 <div className={styles.gameWrapper}>
-                    <div className={styles.score}>Score: {score}</div>
+                    <div className={styles.score}>Score: {formattedScore}</div>
                     <div className={styles.score}>Win: {scoreBuffer}</div>
-                    <div><span className={styles.oldSecret}>{oldOldSecret} -&gt; {oldSecret} -&gt;</span> <span className={styles.newSecret}>{secret}</span></div>
+                    <div className={styles.newSecret}>{secret}</div>
+                    <div className={styles.oldSecret}>{oldOldSecret} -&gt; {oldSecret} -&gt;</div>
                     <div className={styles.gameControls}>
                         <button className={styles.button} onClick={() => handleSkipClick()}>Skip</button>
                         <button className={styles.button} onClick={() => handleHighClick()}>High</button>
