@@ -97,7 +97,7 @@ const Game: NextPage = ({ number }: any) => {
                 </div>
 
                 <div className={styles.credit}>Made with <i className="nes-icon is-small heart"></i> - Aphiwad Chheoun &nbsp;
-                <a href="https://github.com/aphiwadChhoeun/nextjs-game" target={"_blank"}><i className="nes-icon github"></i></a></div>
+                <a href="https://github.com/aphiwadChhoeun/nextjs-game" target={"_blank"} rel="noreferrer"><i className="nes-icon github"></i></a></div>
             </main>
         </div>
     )
