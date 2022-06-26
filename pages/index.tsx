@@ -78,11 +78,12 @@ const Game: NextPage = ({ number }: any) => {
 
             <main className={styles.main}>
                 <div className={styles.title}>Hi-low Game</div>
+                <div className={styles.description}>A random number is generated each round, you bet whether the next number is higher or lower than the current number.</div>
                 <div className={styles.gameWrapper}>
                     <div className="nes-container is-dark">
                         <div className={styles.score}>Score: {formattedScore}</div>
                         <div className={styles.score}>Win: {scoreBuffer}</div>
-                        <div className={"nes-text is-error " + styles.streak}>{streak > 0 && `Winning Streak x${streak}`}</div>
+                        <div className={"nes-text is-error " + styles.streak}>{streak > 1 && `Winning Streak x${streak}`}</div>
                         <div className={styles.newSecret}>{secret}</div>
                         <div className={styles.oldSecret}>{oldOldSecret} -&gt; {oldSecret} -&gt;</div>
                     </div>
@@ -90,12 +91,13 @@ const Game: NextPage = ({ number }: any) => {
                         <button className="nes-btn" onClick={() => handleSkipClick()}>Skip</button>
                         <button className="nes-btn is-primary" onClick={() => handleHighClick()}>High</button>
                         <button className="nes-btn is-primary" onClick={() => handleLowClick()}>Low</button>
-                        <button className="nes-btn is-success" onClick={() => handleCheckoutClick()}>Checkout</button>
+                        <button className="nes-btn is-error" onClick={() => handleCheckoutClick()}>Cashout</button>
 
                     </div>
                 </div>
 
-                <div className={styles.credit}>Made with <i className="nes-icon is-small heart"></i> - Aphiwad Chheoun</div>
+                <div className={styles.credit}>Made with <i className="nes-icon is-small heart"></i> - Aphiwad Chheoun &nbsp;
+                <a href="https://github.com/aphiwadChhoeun/nextjs-game" target={"_blank"}><i className="nes-icon github"></i></a></div>
             </main>
         </div>
     )

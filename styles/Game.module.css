@@ -16,6 +16,12 @@
     font-size: 2em;
 }
 
+.description {
+    padding: 1em 0;
+    width: 45%;
+    color: #4B5D67;
+}
+
 .gameWrapper {
     font-size: 1em;
     width: 100%;
