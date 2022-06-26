@@ -6,8 +6,7 @@ import styles from '../styles/Game.module.css';
 const Game: NextPage = ({ number }: any) => {
     const [score, setScore] = useState(0)
     const [secret, setSecret] = useState(number)
-    const [oldSecret, setOldSecret] = useState<number>(secret)
-    const [oldOldSecret, setOldOldSecret] = useState<number>(secret)
+    const [historySecret, setHistorySecret] = useState<Array<number>>([secret, secret])
     const [streak, setStreak] = useState<number>(0)
     const [scoreBuffer, setScoreBuffer] = useState<number>(0)
     const formattedScore = useMemo(() => {
@@ -20,9 +19,8 @@ const Game: NextPage = ({ number }: any) => {
 
     function populateSecret(rnd: number) {
         const tempSecret = secret
-        const tempOldSecret = oldSecret
-        setOldOldSecret(tempOldSecret)
-        setOldSecret(tempSecret)
+        const tempHistory = historySecret
+        setHistorySecret([tempSecret, tempHistory[0]])
         setSecret(rnd)
     }
 
@@ -85,7 +83,7 @@ const Game: NextPage = ({ number }: any) => {
                         <div className={styles.score}>Win: {scoreBuffer}</div>
                         <div className={"nes-text is-error " + styles.streak}>{streak > 1 && `Winning Streak x${streak}`}</div>
                         <div className={styles.newSecret}>{secret}</div>
-                        <div className={styles.oldSecret}>{oldOldSecret} -&gt; {oldSecret} -&gt;</div>
+                        <div className={styles.oldSecret}>{historySecret[1]} -&gt; {historySecret[0]} -&gt;</div>
                     </div>
                     <div className={styles.gameControls}>
                         <button className="nes-btn" onClick={() => handleSkipClick()}>Skip</button>
@@ -97,7 +95,7 @@ const Game: NextPage = ({ number }: any) => {
                 </div>
 
                 <div className={styles.credit}>Made with <i className="nes-icon is-small heart"></i> - Aphiwad Chheoun &nbsp;
-                <a href="https://github.com/aphiwadChhoeun/nextjs-game" target={"_blank"} rel="noreferrer"><i className="nes-icon github"></i></a></div>
+                    <a href="https://github.com/aphiwadChhoeun/nextjs-game" target={"_blank"} rel="noreferrer"><i className="nes-icon github"></i></a></div>
             </main>
         </div>
     )
