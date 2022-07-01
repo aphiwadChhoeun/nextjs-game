@@ -49,14 +49,14 @@ const Game: NextPage = () => {
         const newSecret = generateNextNumber()
         populateSecret(newSecret)
 
-        handleResult(() => secret < newSecret)
+        handleResult(() => secret ? (secret < newSecret) : false)
     }
 
     function handleLowClick() {
         const newSecret = generateNextNumber()
         populateSecret(newSecret)
 
-        handleResult(() => secret > newSecret)
+        handleResult(() => secret ? (secret > newSecret) : false)
     }
 
     function handleSkipClick() {
