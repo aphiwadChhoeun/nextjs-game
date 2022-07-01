@@ -7,10 +7,10 @@ type SaveStates = {
     score: number
 }
 
-const Game: NextPage = ({ number }: any) => {
+const Game: NextPage = () => {
     const [score, setScore] = useState(0)
-    const [secret, setSecret] = useState(number)
-    const [historySecret, setHistorySecret] = useState<Array<number>>([secret, secret])
+    const [secret, setSecret] = useState<null|number>(null)
+    const [historySecret, setHistorySecret] = useState<Array<null|number>>([secret, secret])
     const [streak, setStreak] = useState<number>(0)
     const [scoreBuffer, setScoreBuffer] = useState<number>(0)
     const formattedScore = useMemo(() => {
@@ -18,8 +18,7 @@ const Game: NextPage = ({ number }: any) => {
     }, [score])
 
     useEffect(() => {
-        const savedValues = JSON.parse(localStorage.getItem('hilo-game') ?? "{}")
-        setScore(savedValues?.score ?? 0)
+        setSecret(randomNumber(0, 100))
     }, [])
 
     function generateNextNumber(): number {
@@ -89,7 +88,7 @@ const Game: NextPage = ({ number }: any) => {
             </Head>
 
             <main className={styles.main}>
-                <div className={styles.title}>Hi-low Game</div>
+                <div className={styles.title}>Hi-lo Game</div>
                 <div className={styles.description}>A random number is generated each round, you bet whether the next number is higher or lower than the current number.</div>
                 <div className={styles.gameWrapper}>
                     <div className="nes-container is-dark">
@@ -113,14 +112,6 @@ const Game: NextPage = ({ number }: any) => {
             </main>
         </div>
     )
-}
-
-export async function getStaticProps() {
-    return {
-        props: {
-            number: randomNumber(0, 100)
-        },
-    }
 }
 
 function randomNumber(min: number, max: number): number {
